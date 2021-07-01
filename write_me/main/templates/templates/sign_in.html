@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- <link rel="stylesheet" href="main/templates/templates/css_files/sign.css"> -->
+    <style>
+        body {
+            height: 90vh;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+        }
+
+        .page {
+            height: 100%;
+            width: 800px;
+            display: flex;
+            padding: 1px;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, #086CB4, #EAAC0E);
+            border-radius: 20px;
+            padding: 3px;
+
+        }
+
+        .module {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: black;
+            width: 99%;
+            height: 99%;
+            border-radius: 20px;
+<!--            padding: 2rem;-->
+        }
+
+        .header {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 20%;
+            align-items: center;
+        }
+
+        .login {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 50%;
+            font-size: 1.3rem;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: white;
+            padding-bottom: 5px;
+            border-bottom: 2px solid white;
+        }
+
+        .sign_up {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 50%;
+            font-size: 1.3rem;
+            padding-bottom: 7px;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: gray;
+        }
+
+        .sign_up:hover {
+            color: white;
+            padding-bottom: 5px;
+            border-bottom: 2px solid white;
+            cursor: pointer;
+        }
+
+        .types {
+            display: flex;
+            height: auto;
+            flex-direction: row;
+            align-items: center;
+            width: 80%;
+            color: white;
+            border-bottom: white;
+            border-bottom-color: white;
+            font-size: 1.3rem;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        input {
+            background-color: rgb(40, 40, 40);
+            font-family: inherit;
+            width: 100%;
+            border: 0;
+            outline: 0;
+            font-size: 120%;
+            color: white;
+            margin-bottom: 10px;
+            transition: border-color 0.2s;
+            border-radius: 5px;
+            height: 10%;
+            padding: 0 5px;
+        }
+
+        button {
+            width: 102%;
+            height: 10%;
+            color: white;
+            background: #086CB4;
+            background: linear-gradient(to right, #EAAC0E, #086CB4);
+            border: 0;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        }
+
+        button:hover {
+            cursor: pointer;
+            background: linear-gradient(to right, #EAAC0E, #086CB4);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 50%;
+            height: 60%;
+            font-size: 0.8rem;
+        }
+
+        .title {
+            display: flex;
+            width: 100%;
+            font-size: 2rem;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            margin: 80px;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="page">
+    <div class="module">
+        <div class="header">
+            <img src="{{ media }}/logo/logo.png">
+            <div class="title">
+                <span style="color: #EAAC0E">W</span>
+                <span style="color: white">rite</span>
+                <span style="color: #086CB4"> M</span>
+                <span style="color: white">e</span>
+            </div>
+        </div>
+        <div class="types">
+            <div class="login">
+                Login
+            </div>
+            <a href="{% url 'sign_up' %}" class="sign_up">
+                Sign Up
+            </a>
+        </div>
+        <form method="post" action="">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="  Login (e-mail)">
+            <input type="password" name="password" placeholder="  Password">
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>

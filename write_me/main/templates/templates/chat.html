@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            color: white;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: black;
+        }
+        .page {
+            height: 95vh;
+            width: 100%;
+            display: flex;
+            padding: 1px;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, #086CB4, #EAAC0E);
+            border-radius: 20px;
+            padding: 3px;
+        }
+        .module {
+            display: flex;
+            flex-direction: row;
+            background: black;
+            width: 99%;
+            height: 99%;
+            border-radius: 20px;
+        }
+        a {
+            text-decoration: none;
+        }
+        .prof_img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 20px;
+            font-size: 1.5rem;
+        }
+        footer {
+            width: 100%;
+            height: 10%;
+            background-color: rgb(40, 40, 40);
+            border-radius: 10px;
+        }
+        #messenger {
+            height: 80%;
+            width: 100%;
+            overflow-y: auto;
+            margin-bottom: 5px;
+        }
+        .chats {
+            background-color: rgb(20, 20, 20);
+            border-radius: 20px;
+            width: 25%;
+        }
+        .textarea {
+            background-color:  rgb(40, 40, 40);
+            font-family: inherit;
+            width: 90%;
+            border: 0;
+            color: white;
+            border-radius: 10px;
+            padding: 10px;
+            outline: none;
+        }
+        form {
+            display: flex;
+            flex-direction: row;
+        }
+        .submit {
+            background-color: rgb(40, 40, 40);
+            border: 0;
+            height: 100%;
+        }
+        .submit:hover {
+            cursor: pointer;
+        }
+        .message {
+            width: 100%;
+            position: relative;
+            display: flex;
+        }
+        .text {
+            max-width: 50%;
+            height: auto;
+            display: inline-block;
+            word-break: break-all;
+            background-color: rgb(40, 40, 40);
+            padding: 10px;
+            border-radius: 20px;
+            margin: 5px;
+        }
+        header {
+            height: 10%;
+            width: 100%;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            background-color: rgb(40, 40, 40);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="module">
+        <div class="chats">
+            <a href="/../chat/{{other_profile.id}}">
+                <div class="info" style="background: black; border-top-left-radius: 20px">
+                    <img src="{{ other_profile.picture.url }}" class="prof_img">
+                    {{ other_profile.user.first_name }}
+                    {{ other_profile.user.last_name }}
+                </div>
+            </a>
+            {% for chat in all_chats %}
+            {% if chat.user1.id == my_profile.id and chat.user2.id != other_profile.id %}
+            <a href="/../chat/{{chat.user2.id}}">
+                <div class="info">
+                    <img src="{{ chat.user2.picture.url }}" class="prof_img">
+                    {{ chat.user2.user.first_name }}
+                    {{ chat.user2.user.last_name }}
+                </div>
+            </a>
+            {% elif chat.user1.id != other_profile.id and chat.user2.id == my_profile.id %}
+            <a href="/../chat/{{chat.user1.id}}">
+                <div class="info">
+                    <img src="{{ chat.user1.picture.url }}" class="prof_img">
+                    {{ chat.user1.user.first_name }}
+                    {{ chat.user1.user.last_name }}
+                </div>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div style="width: 50%; margin: 0 20px 20px 20px;">
+            <header>
+                <a href="/../chat/{{my_profile.id}}">
+                    <div class="info">
+                        <img src="{{my_profile.picture.url}}" class="prof_img">
+                        {{ my_profile.user.first_name }}
+                        {{ my_profile.user.last_name }}
+                    </div>
+                </a>
+            </header>
+            <div id="messenger">
+                {% for message in messages %}
+                {% if message.from_user.id == my_profile.id %}
+                <div class="message" style="justify-content: flex-end;">
+                    <div class="text">{{ message.message }}</div>
+                </div>
+                {% else %}
+                <div class="message">
+                    <div class="text">{{ message.message }}</div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <footer>
+                <form method="post">
+                    {% csrf_token %}
+                    <input name="message" class="textarea">
+                    <input type="submit" value="Send" class="submit">
+                </form>
+            </footer>
+        </div>
+    </div>
+</div>
+<script>
+    var element = document.getElementById("messenger");
+    element.scrollTop = element.scrollHeight;
+</script>
+</body>
+</html>

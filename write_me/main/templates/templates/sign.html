@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- <link rel="stylesheet" href="main/templates/templates/css_files/sign.css"> -->
+    <style>
+        body {
+            height: 100vh;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+        }
+
+        .page {
+            display: flex;
+            justify-content: space-between;
+<!--            align-items: center;-->
+            height: 100%;
+<!--            padding-top: 10%;-->
+            width: 60%;
+        }
+
+        .login {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 50%;
+            padding: 20% 100px;
+        }
+
+        .header {
+            color: white;
+            border-bottom: white;
+            border-bottom-color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        input {
+            background-color: rgb(40, 40, 40);
+            font-family: inherit;
+            width: 100%;
+            border: 0;
+            border-bottom: 2px solid gray;
+            outline: 0;
+            font-size: 1.5rem;
+            color: white;
+            padding: 7px;
+            margin-bottom: 10px;
+            transition: border-color 0.2s;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            height: 100%;
+            margin: 5px;
+            padding: 7px;
+            color: white;
+            background: blue;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #login {
+            border: 2px solid yellow;
+            border-left: 2px solid black;
+            border-radius: 0 40px 40px 0;
+        }
+
+        #sign_up {
+            border: 2px solid blue;
+            border-right: 2px solid black;
+            border-radius: 40px 0 0 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div>
+            <div class="login">
+                Login
+            </div>
+            <div class="login">
+                Sign Up
+            </div>
+        </div>
+<!--       <div class="login" id="sign_up">&ndash;&gt;-->
+<!--           <div class="header">Sign Up</div>-->
+<!--           <form method="POST" action="">&ndash;&gt;-->
+<!--               {% csrf_token %}&ndash;&gt;-->
+<!--                <div>{{ form.username }}</div>-->
+<!--                <div>{{ form.email }}</div>-->
+<!--                <div>{{ form.password1 }}</div>-->
+<!--                <div>{{ form.password2 }}</div>-->
+<!--                <button type="submit" name="submit" value="sign_up">Sign Up</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div class="login" id="login">-->
+<!--            <div class="header">Login</div>-->
+<!--            <form method="POST" action="">-->
+<!--                {% csrf_token %}-->
+<!--                <div><input type="text" name="username" placeholder="Login (e-mail)"></div>-->
+<!--                <div><input type="password" name="password" placeholder="Password"></div>-->
+<!--               <button type="submit" name="submit" value="login">Login</button>-->
+<!--            </form>-->
+<!--        </div>-->
+    </div>
+</body>
+
+</html>

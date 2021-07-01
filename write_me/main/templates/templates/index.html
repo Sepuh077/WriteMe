@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            color: white;
+        }
+        body {
+            background: black;
+        }
+        .page {
+            height: 95vh;
+            width: 100%;
+            display: flex;
+            padding: 1px;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, #086CB4, #EAAC0E);
+            border-radius: 20px;
+            padding: 3px;
+        }
+        .module {
+            display: flex;
+            flex-direction: column;
+            background: black;
+            width: 97%;
+            height: 95%;
+            border-radius: 20px;
+            padding: 20px;
+        }
+        a {
+            text-decoration: none;
+        }
+        .prof_img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin: 20px;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="module">
+        <div class="header">
+            {{ user.user.username }}
+            {{ user.user.email }}
+        </div>
+        <div>
+            {% for profile in profiles %}
+            {% if profile.is_registered %}
+            {% if profile.id != user.id %}
+            <a href="/chat/{{ profile.id }}" class="info">
+                <img class="prof_img" src="{{ profile.picture.url }}">
+                {{ profile.user.username }}
+            </a>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
