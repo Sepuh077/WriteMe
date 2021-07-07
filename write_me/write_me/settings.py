@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-rbi=80eseq)w*hh*msf%62g*-51c)rt4+&wnf7ebrq$d4@qyh(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+
+TIME_INPUT_FORMATS = [
+    '%H:%M',        # '14:30'
 ]
 
 MIDDLEWARE = [

@@ -10,19 +10,31 @@ class Profile(models.Model):
     birth_date = models.DateField(default=datetime.date(2001, 1, 1))
     is_registered = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f'Username: {self.user.username}, Name: {self.user.first_name}, Last name: {self.user.last_name}'
+
 
 class Chat(models.Model):
     user1 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='first_user')
     user2 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='second_user')
 
+    def __str__(self):
+        return f'Chat with {self.user1.user.username} and {self.user2.user.username}'
+
 
 class Message(models.Model):
     chat = models.ForeignKey(Chat, models.CASCADE)
     from_user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    sent_time = models.DateTimeField(default=now())
-    message = models.CharField(max_length=1000)
+    sent_date = models.DateTimeField(default=datetime.datetime.now, blank=False)
+    message = models.TextField(max_length=1000, blank=True, null=True)
+
+    def __str__(self):
+        return f'Message: {self.message}'
 
 
 class VerificationCode(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     code = models.CharField(max_length=6)
+
+    def __str__(self):
+        return f'For {self.profile.user.username} verification code is {self.code}'

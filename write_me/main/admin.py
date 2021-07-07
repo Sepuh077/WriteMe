@@ -6,4 +6,3 @@ admin.site.register(Profile)
 admin.site.register(VerificationCode)
 admin.site.register(Chat)
 admin.site.register(Message)
-

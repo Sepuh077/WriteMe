@@ -4,11 +4,37 @@ from django.shortcuts import render, redirect
 from django.core import mail
 from write_me.settings import EMAIL_HOST_USER, MEDIA_URL
 from django.template.loader import render_to_string
+import re
+# from socket import A
 # from django.core.exceptions import ValidationError
 # from django.core.validators import validate_email
 import random
 from .forms import *
 from .models import *
+
+
+def is_user_matches(search_text, text_len, user):
+    if search_text[0] == '@':
+        if len(user.username) < text_len - 1:
+            if search_text[1:len(user.username) + 1].lower() == user.username.lower():
+                return True
+        else:
+            if search_text[1:].lower() == user.username[:text_len - 1].lower():
+                return True
+    else:
+        name = (user.first_name + " " + user.last_name).lower()
+        if len(name) < text_len:
+            if search_text[:len(name)].lower() == name or search_text.lower() == (user.last_name + " " +
+                                                                                  user.first_name).lower():
+                return True
+        else:
+            if search_text == name[:text_len] or search_text.lower() == (user.last_name + " " +
+                                                                         user.first_name)[:text_len].lower():
+                print(search_text)
+                print(name[:text_len])
+                return True
+
+    return False
 
 
 def send_email(to, subject, html_file, context, files):
@@ -30,13 +56,45 @@ def send_email(to, subject, html_file, context, files):
 def main(request):
     if request.user.is_superuser:
         return redirect('login')
+
+    if request.method == "GET":
+        print(request.GET.get('search'))
+        search_text = request.GET.get('search')
+        if search_text:
+            return redirect(f'search/?search={search_text.replace(" ", "+")}', search_text=search_text)
     form = None
     context = {
         'user': Profile.objects.get(user=request.user),
         'profiles': Profile.objects.all(),
         'form': form,
+        'media': MEDIA_URL,
     }
     return render(request, 'templates/index.html', context)
+
+
+@login_required(login_url='login')
+def search(request, search_text=None):
+    if request.user.is_superuser:
+        return redirect('login')
+    if request.method == "GET":
+        search_text = request.GET.get('search')
+
+    matching_profiles = []
+    if search_text:
+        search_text = str(re.sub(' +', ' ', search_text)).lstrip().rstrip()
+        print(search_text)
+        profiles = Profile.objects.all()
+        text_len = len(search_text)
+        for profile in profiles:
+            if is_user_matches(search_text, text_len, profile.user):
+                matching_profiles.append(profile)
+
+    context = {
+        'profiles': matching_profiles,
+        'user': Profile.objects.get(user=request.user),
+        'media': MEDIA_URL,
+    }
+    return render(request, 'templates/search.html', context)
 
 
 @login_required(login_url='login')
@@ -58,14 +116,14 @@ def chat(request, profile_id):
                     message=message,
                 )
 
-        messages = [] if not chats else Message.objects.filter(chat=chats[0])
+        messages = [] if not chats else Message.objects.filter(chat=chats[0]).order_by('sent_date')
         context = {
             'my_profile': my_profile,
             'other_profile': other_profile,
             'all_chats': Chat.objects.filter(user1=my_profile) | Chat.objects.filter(user2=my_profile),
             'messages': messages,
+            'media': MEDIA_URL,
         }
-        print(context['all_chats'])
         return render(request, 'templates/chat.html', context)
     except Exception as exc:
         print(exc)
@@ -112,6 +170,7 @@ def verify(request, profile_id):
     try:
         profile = Profile.objects.get(id=profile_id)
         verification = VerificationCode.objects.get(profile=profile)
+        print(verification)
         if request.method == "POST":
             code = request.POST.get('code')
             if code == verification.code:

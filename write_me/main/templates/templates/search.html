@@ -9,12 +9,12 @@
         }
         body {
             background: black;
+            margin: 0;
         }
         .page {
             height: 95vh;
             width: 100%;
             display: flex;
-            padding: 1px;
             justify-content: center;
             align-items: center;
             background: linear-gradient(to right, #086CB4, #EAAC0E);
@@ -33,6 +33,9 @@
         a {
             text-decoration: none;
         }
+        a:hover {
+            cursor: pointer;
+        }
         .prof_img {
             height: 50px;
             width: 50px;
@@ -45,13 +48,12 @@
             align-items: center;
             margin: 20px;
             font-size: 1.5rem;
-            width: 30%;
         }
         .search {
             width: 100%;
             height: 50px;
             display: flex;
-            align-items: center;
+<!--            justify-content: center;-->
             position: absolute;
         }
         .search_input {
@@ -79,6 +81,22 @@
         .search_button:hover {
 
         }
+        .all {
+            width: 100%;
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .home_button {
+            background: black;
+            border: 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 50px;
+        }
         .Logo {
             height: 80%;
         }
@@ -86,34 +104,40 @@
             width: 25%;
             height: 100%;
         }
-        .main {
-            margin-top: 80px;
-        }
     </style>
 </head>
 <body>
 <div class="page">
     <div class="module">
         <header class="search">
-            <a href="" class="logo_div">
+            <a class="logo_div" href="../..">
                 <img src="{{ media }}/logo/logo.png" class="Logo">
             </a>
             <form method="get" class="search_form">
                 <input type="text" placeholder="Search..." name="search" class="search_input">
                 <input type="submit" value="Search" class="search_button">
             </form>
+<!--            <a href='/..' class="home_button"> <button  class="home_button" type="submit">Home</button> </a>-->
         </header>
-        <div class="main">
+        <div class="all">
+            <a href="/../chat/{{ user.id }}" class="info">
+                <img class="prof_img" src="{{ user.picture.url }}">
+                {{ user.user.username }} (me)
+            </a>
+            {% if profiles %}
             {% for profile in profiles %}
             {% if profile.is_registered %}
             {% if profile.id != user.id %}
-            <a href="/chat/{{ profile.id }}" class="info">
+            <a href="/../chat/{{ profile.id }}" class="info">
                 <img class="prof_img" src="{{ profile.picture.url }}">
                 {{ profile.user.username }}
             </a>
             {% endif %}
             {% endif %}
             {% endfor %}
+            {% else %}
+<!--                We can`t find anything.-->
+            {% endif %}
         </div>
     </div>
 </div>
