@@ -1,4 +1,5 @@
 static
+migrations
 __pycache__
 media
 *.sqlite3
