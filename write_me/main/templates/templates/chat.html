@@ -86,7 +86,7 @@
             font-family: inherit;
             width: 90%;
             border: 0;
-            color: white;
+            color: rgb(50, 50, 50);
             border-radius: 10px;
             outline: none;
             resize: none;
@@ -99,13 +99,15 @@
         }
 
         .submit {
-            background-color: rgb(40, 40, 40);
-            border: 0;
+            background-color: #b2b1b0;
+            border: 2px solid back;
             height: 100%;
+            color: black;
         }
 
         .submit:hover {
             cursor: pointer;
+            background-color: #b2b1a0;
         }
 
         .message {
@@ -124,7 +126,9 @@
             border-radius: 20px;
             margin: 5px;
         }
-
+        .text:hover {
+            cursor: pointer;
+        }
         header {
             height: 10%;
             width: 100%;
@@ -164,11 +168,17 @@
             border-bottom-left-radius: 20px;
         }
         .Logo {
-            height: 80%;
+            height: auto;
+            /* height: 80%; */
         }
         .logo_div {
             width: 25%;
             height: 100%;
+        }
+        .delete_button {
+            margin: 5px;
+            background: red;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -200,6 +210,7 @@
                     <div class="text" style="background: rgb(70, 70, 70);">
                         {{ message.message }}<br>
                         <div class="date"> {{ message.sent_date }}</div>
+                        <button class="delete_button" style="display: none;">Delete</button>
                     </div>
                 </div>
                 {% else %}
@@ -208,6 +219,7 @@
                         <div class="date" style="justify-content: flex-start;">
                             {{ message.sent_date }}
                         </div>
+                        <button class="delete_button" style="display: none;">Delete</button>
                     </div>
                 </div>
                 {% endif %}
@@ -268,6 +280,18 @@
 <script>
         var element = document.querySelector(".messenger");
         element.scrollTop = element.scrollHeight;
+        const messages = document.querySelectorAll(".text");
+        const delete_buttons = document.querySelectorAll(".delete_button");
+        for(let i = 0; i < messages.length; ++i) {
+            messages[i].addEventListener("click", function () {
+                if (delete_buttons[i].style.display == "none") {
+                    delete_buttons[i].style.display = "block"
+                }
+                else {
+                    delete_buttons[i].style.display = "none"
+                }
+            }, false);
+        }
         // const textarea = document.getElementsByTagName("textarea");
         // const messenger = document.querySelector(".messenger")
         // const footer = document.querySelector("#footer")

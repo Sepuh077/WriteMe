@@ -152,6 +152,7 @@ def sign_up(request):
     if request.method == "POST":
         form = Registration(request.POST)
         if form.is_valid():
+            print(1)
             code = random.randint(100000, 999999)
             send_email([request.POST.get('email')], 'Verification', 'templates/html_message.html', {'code': code}, [])
             user = form.save()
