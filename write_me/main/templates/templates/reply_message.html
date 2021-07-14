@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            color: white;
+        }
+        body {
+            background: black;
+        }
+        .page {
+            height: 95vh;
+            width: 100%;
+            display: flex;
+            padding: 1px;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, #086CB4, #EAAC0E);
+            border-radius: 20px;
+            padding: 3px;
+        }
+        .module {
+            display: flex;
+            flex-direction: column;
+            background: black;
+            width: 97%;
+            height: 95%;
+            border-radius: 20px;
+            padding: 15px;
+        }
+        a {
+            text-decoration: none;
+        }
+        .prof_img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin: 20px;
+            font-size: 1.5rem;
+            width: 30%;
+        }
+        .search {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            position: absolute;
+        }
+        .search_input {
+            width: 90%;
+            height: 50%;
+            border: 0;
+            padding: 10px;
+            background: rgb(60, 60, 60);
+            border-radius: 10px;
+        }
+        .search_form {
+            width: 50%;
+            background: rgb(60, 60, 60);
+            border-radius: 10px;
+            height: 40px;
+            border: 0;
+            display: flex;
+            align-items: center;
+        }
+        .search_button {
+            background: rgb(60, 60, 60);
+            border: 0;
+            cursor: pointer;
+        }
+        .search_button:hover {
+
+        }
+        .Logo {
+            height: 80%;
+        }
+        .logo_div {
+            width: 25%;
+            height: 100%;
+        }
+        .main {
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="module">
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="message">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
