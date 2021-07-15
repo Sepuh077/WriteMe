@@ -124,8 +124,8 @@ EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'sepuh.hovhannisyan.01@mail.ru'
-EMAIL_HOST_PASSWORD = 'SepHov077'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

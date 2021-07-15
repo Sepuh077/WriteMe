@@ -57,11 +57,13 @@ def main(request):
     if request.user.is_superuser:
         return redirect('login')
 
-    if request.method == "GET":
-        print(request.GET.get('search'))
-        search_text = request.GET.get('search')
-        if search_text:
-            return redirect(f'search/?search={search_text.replace(" ", "+")}', search_text=search_text)
+    if request.method == "POST":
+        print("*"*100)
+        print(request.POST.get('search'))
+        search_text = request.POST.get('search')
+        if not search_text:
+            search_text = ""
+        return redirect(f'search/?search={search_text.replace(" ", "+")}', search_text=search_text)
     form = None
     context = {
         'user': Profile.objects.get(user=request.user),
@@ -98,23 +100,55 @@ def search(request, search_text=None):
 
 
 @login_required(login_url='login')
+def forward_message(request, message_id):
+    replied_message = Message.objects.get(id=message_id)
+    me = Profile.objects.get(user=request.user)
+    other_profile = replied_message.chat.user1 \
+        if replied_message.chat.user2.id == me.id else replied_message.chat.user2
+    if request.method == "POST":
+        message_text = request.POST.get('message')
+        Message.objects.create(
+            replied_from_id=message_id,
+            replied_text=replied_message.message,
+            chat=replied_message.chat,
+            from_user=me,
+            message=message_text,
+        )
+        return redirect(f'../../{other_profile.id}')
+
+    context = {
+        'other_profile': other_profile,
+        'my_profile': me,
+        'replied_message': replied_message,
+    }
+    return render(request, 'templates/reply_message.html', context)
+
+
+@login_required(login_url='login')
 def chat(request, profile_id):
     try:
         my_profile = Profile.objects.get(user=request.user)
         other_profile = Profile.objects.get(id=profile_id)
         chats = Chat.objects.filter(user1=my_profile, user2=other_profile) \
             | Chat.objects.filter(user2=my_profile, user1=other_profile)
+        
         if request.method == "POST":
-            message = request.POST.get('message')
-            if message != '' and not message.isspace():
-                if not chats:
-                    chats = [Chat.objects.create(user1=my_profile, user2=other_profile)]
+            if request.POST.get('send'):
+                message = request.POST.get('message')
+                if message != '' and not message.isspace():
+                    if not chats:
+                        chats = [Chat.objects.create(user1=my_profile, user2=other_profile)]
 
-                Message.objects.create(
-                    chat=chats[0],
-                    from_user=my_profile,
-                    message=message,
-                )
+                    Message.objects.create(
+                        chat=chats[0],
+                        from_user=my_profile,
+                        message=message,
+                    )
+            elif request.POST.get('delete'):
+                Message.objects.get(id=request.POST.get('delete')).delete()
+            elif request.POST.get('reply_message'):
+                message_id = request.POST.get('reply_message')
+                return redirect(f'{message_id}/reply-message/', my_id=my_profile.id, message_id=message_id)
 
         messages = [] if not chats else Message.objects.filter(chat=chats[0]).order_by('sent_date')
         context = {

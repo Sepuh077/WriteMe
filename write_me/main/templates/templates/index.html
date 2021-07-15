@@ -98,7 +98,8 @@
             <a href="" class="logo_div">
                 <img src="{{ media }}/logo/logo.png" class="Logo">
             </a>
-            <form method="get" class="search_form">
+            <form method="post" class="search_form">
+                {% csrf_token %}
                 <input type="text" placeholder="Search..." name="search" class="search_input">
                 <input type="submit" value="Search" class="search_button">
             </form>

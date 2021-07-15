@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,9 +8,11 @@
         * {
             color: white;
         }
+
         body {
             background: black;
         }
+
         .page {
             height: 95vh;
             width: 100%;
@@ -21,6 +24,7 @@
             border-radius: 20px;
             padding: 3px;
         }
+
         .module {
             display: flex;
             flex-direction: column;
@@ -30,15 +34,18 @@
             border-radius: 20px;
             padding: 15px;
         }
+
         a {
             text-decoration: none;
         }
+
         .prof_img {
             height: 50px;
             width: 50px;
             border-radius: 50%;
             margin-right: 10px;
         }
+
         .info {
             display: flex;
             flex-direction: row;
@@ -47,59 +54,98 @@
             font-size: 1.5rem;
             width: 30%;
         }
-        .search {
-            width: 100%;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            position: absolute;
-        }
-        .search_input {
-            width: 90%;
-            height: 50%;
-            border: 0;
-            padding: 10px;
-            background: rgb(60, 60, 60);
-            border-radius: 10px;
-        }
-        .search_form {
-            width: 50%;
-            background: rgb(60, 60, 60);
-            border-radius: 10px;
-            height: 40px;
-            border: 0;
-            display: flex;
-            align-items: center;
-        }
-        .search_button {
-            background: rgb(60, 60, 60);
-            border: 0;
-            cursor: pointer;
-        }
-        .search_button:hover {
 
-        }
         .Logo {
             height: 80%;
         }
+
         .logo_div {
             width: 25%;
             height: 100%;
         }
+
         .main {
-            margin-top: 80px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            margin-top: 10%;
+            /* align-items: center; */
+            justify-content: center;
+        }
+
+        header {
+            height: 10%;
+            width: 100%;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            background-color: rgb(40, 40, 40);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .textarea {
+            background: #b2b1b0;
+            font-family: inherit;
+            width: 100%;
+            border: 0;
+            color: rgb(50, 50, 50);
+            border-radius: 10px;
+            outline: none;
+            resize: none;
+        }
+
+        .submit {
+            background-color: #b2b1b0;
+            border: 2px solid back;
+            height: 100%;
+            color: black;
+        }
+
+        .input {
+            width: 100%;
+            background-color: #b2b1b0;
+            border-radius: 10px;
+            font-size: 100%;
+            border-top-left-radius: 0;
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+        }
+
+        form {
+            width: 40%;
         }
     </style>
 </head>
+
 <body>
-<div class="page">
-    <div class="module">
-        <form method="post">
-            {% csrf_token %}
-            <input type="text" name="message">
-            <button type="submit">Send</button>
-        </form>
+    <div class="page">
+        <div class="module">
+            <header>
+                <a href="/../../{{other_profile.id}}">
+
+                </a>
+            </header>
+            <div class="main">
+                <form method="post">
+                    <div style="display: flex; flex-direction: row;">
+                        <div style="width: 2px; background: gray; margin: 5px 10px;"></div>
+                        <div style="height: auto; display: inline-block; position: relative; width: 100%; word-break: break-all;">
+                            <div style="font-size: 1.2rem;"><a href="../../{{other_profile.id}}"
+                                    style="color: skyblue;">{{ other_profile.user.first_name }}</a><br></div>
+                            {{ replied_message.message }}
+                        </div>
+                    </div>
+                    <div class="input">
+                        {% csrf_token %}
+                        <input class="textarea" type="text" name="message">
+                        <button class="submit" type="submit">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

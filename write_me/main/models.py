@@ -23,10 +23,12 @@ class Chat(models.Model):
 
 
 class Message(models.Model):
+    replied_from_id = models.IntegerField(null=True, default=None)
+    replied_text = models.TextField(blank=True, null=True, default=None)
     chat = models.ForeignKey(Chat, models.CASCADE)
     from_user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     sent_date = models.DateTimeField(default=datetime.datetime.now, blank=False)
-    message = models.TextField(max_length=1000, blank=True, null=True)
+    message = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f'Message: {self.message}'

@@ -56,7 +56,8 @@
 
         footer {
             width: 98%;
-            background-color: #b2b1b0;;
+            background-color: #b2b1b0;
+            ;
             border-radius: 10px;
             font-size: 100%;
             padding: 10px 0 10px 10px;
@@ -96,6 +97,7 @@
             display: flex;
             flex-direction: row;
             height: 100%;
+            border: 0;
         }
 
         .submit {
@@ -116,19 +118,31 @@
             display: flex;
         }
 
+        .reply {
+            height: auto;
+            display: inline-block;
+            word-break: break-all;
+            background-color: rgba(100, 100, 100);
+            padding: 10px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            margin: 5px 5px 0 5px;
+        }
+
         .text {
-            max-width: 50%;
             height: auto;
             display: inline-block;
             word-break: break-all;
             background-color: rgb(40, 40, 40);
             padding: 10px;
             border-radius: 20px;
-            margin: 5px;
+            margin: 0px 5px 15px 5px;
         }
+
         .text:hover {
             cursor: pointer;
         }
+
         header {
             height: 10%;
             width: 100%;
@@ -139,6 +153,7 @@
             display: flex;
             align-items: center;
         }
+
         .date {
             width: 100%;
             display: flex;
@@ -147,6 +162,7 @@
             font-size: 0.8rem;
             color: rgb(110, 110, 110);
         }
+
         .hello {
             display: flex;
             width: 100%;
@@ -154,12 +170,14 @@
             justify-content: center;
             align-items: center;
         }
+
         .hello_word {
             display: flex;
             width: 100%;
             justify-content: center;
             align-items: center;
         }
+
         .start {
             width: 25%;
             height: 100%;
@@ -167,19 +185,40 @@
             border-top-left-radius: 20px;
             border-bottom-left-radius: 20px;
         }
+
         .Logo {
             height: auto;
             /* height: 80%; */
         }
+
         .logo_div {
             width: 25%;
             height: 100%;
         }
+
         .delete_button {
             margin: 5px;
             background: red;
             border-radius: 5px;
+            border: 0;
         }
+        .delete_button:hover {
+            cursor: pointer;
+        }
+        .reply_button {
+            margin: 5px;
+            background: gray;
+            border-radius: 5px;
+            border: 0;
+        }
+        .reply_button:hover {
+            cursor: pointer;
+        }
+        form {
+            height: auto;
+        }
+
+
     </style>
 </head>
 
@@ -204,22 +243,99 @@
             <div class="messenger" style="height: 85%;">
                 {% if messages %}
                 {% for message in messages %}
-<!--                {{ message.sent_date }}-->
+                <!--                {{ message.sent_date }}-->
                 {% if message.from_user.id == my_profile.id %}
                 <div class="message" style="justify-content: flex-end;">
-                    <div class="text" style="background: rgb(70, 70, 70);">
-                        {{ message.message }}<br>
-                        <div class="date"> {{ message.sent_date }}</div>
-                        <button class="delete_button" style="display: none;">Delete</button>
+                    <div style="display: flex; flex-direction: column; max-width: 50%;">
+                        {% if message.replied_from_id %}
+                        <div class="reply">
+                            <div style="color: black; font-size: 0.8rem">Replied<br></div>
+                            {{ message.replied_text }}
+                        </div>
+                        <div class="text" style="background: rgb(70, 70, 70); border-top-left-radius: 0; border-top-right-radius: 0;">
+                            {{ message.message }}<br>
+                            <div class="date"> {{ message.sent_date }}</div>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="delete_button" style="display: none;"
+                                        name="delete" value="{{message.id}}">Delete
+                                </button>
+                            </form>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="reply_button" style="display: none;"
+                                        name="reply_message" value="{{message.id}}">Reply
+                                </button>
+                            </form>
+                        </div>
+                        {% else %}
+                        <div class="text" style="background: rgb(70, 70, 70);">
+                            {{ message.message }}<br>
+                            <div class="date"> {{ message.sent_date }}</div>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="delete_button" style="display: none;"
+                                        name="delete" value="{{message.id}}">Delete
+                                </button>
+                            </form>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="reply_button" style="display: none;"
+                                        name="reply_message" value="{{message.id}}">Reply
+                                </button>
+                            </form>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 {% else %}
                 <div class="message">
-                    <div class="text">{{ message.message }}<br>
-                        <div class="date" style="justify-content: flex-start;">
-                            {{ message.sent_date }}
+                    <div style="display: flex; flex-direction: column; max-width: 50%;">
+                        {% if message.replied_from_id %}
+                        <div class="reply">
+                            <div style="color: black; font-size: 0.8rem">Replied<br></div>
+                            {{ message.replied_text }}
                         </div>
-                        <button class="delete_button" style="display: none;">Delete</button>
+                        <div class="text" style="border-top-left-radius: 0; border-top-right-radius: 0;">
+                            {{ message.message }}<br>
+                            <div class="date" style="justify-content: flex-start;">
+                                {{ message.sent_date }}
+                            </div>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="delete_button" style="display: none;"
+                                        name="delete" value="{{message.id}}">Delete
+                                </button>
+                            </form>
+
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="reply_button" style="display: none;"
+                                        name="reply_message" value="{{message.id}}">Reply
+                                </button>
+                            </form>
+                        </div>
+                        {% else %}
+                        <div class="text">
+                            {{ message.message }}<br>
+                            <div class="date" style="justify-content: flex-start;">
+                                {{ message.sent_date }}
+                            </div>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="delete_button" style="display: none;"
+                                        name="delete" value="{{message.id}}">Delete
+                                </button>
+                            </form>
+
+                            <form method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="reply_button" style="display: none;"
+                                        name="reply_message" value="{{message.id}}">Reply
+                                </button>
+                            </form>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 {% endif %}
@@ -240,7 +356,7 @@
                     {% csrf_token %}
                     <input name="message" class="textarea">
                     <!-- </textarea> -->
-                    <input type="submit" value="Send" class="submit">
+                    <input type="submit" value="Send" class="submit" name="send">
                 </form>
             </footer>
         </div>
@@ -282,13 +398,16 @@
         element.scrollTop = element.scrollHeight;
         const messages = document.querySelectorAll(".text");
         const delete_buttons = document.querySelectorAll(".delete_button");
-        for(let i = 0; i < messages.length; ++i) {
+        const reply_buttons = document.querySelectorAll(".reply_button");
+        for (let i = 0; i < messages.length; ++i) {
             messages[i].addEventListener("click", function () {
                 if (delete_buttons[i].style.display == "none") {
                     delete_buttons[i].style.display = "block"
+                    reply_buttons[i].style.display = "block"
                 }
                 else {
                     delete_buttons[i].style.display = "none"
+                    reply_buttons[i].style.display = "none"
                 }
             }, false);
         }
@@ -316,6 +435,8 @@
         //     console.log(footer.style.height)
         //     console.log(messenger.style.height)
         // }
+
+
 
 
 
