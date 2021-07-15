@@ -100,7 +100,7 @@ def search(request, search_text=None):
 
 
 @login_required(login_url='login')
-def forward_message(request, message_id):
+def reply_message(request, message_id):
     replied_message = Message.objects.get(id=message_id)
     me = Profile.objects.get(user=request.user)
     other_profile = replied_message.chat.user1 \
@@ -145,7 +145,13 @@ def chat(request, profile_id):
                         message=message,
                     )
             elif request.POST.get('delete'):
-                Message.objects.get(id=request.POST.get('delete')).delete()
+                id = request.POST.get('delete')
+                messages = Message.objects.filter(replied_from_id=id)
+                for message in messages:
+                    message.replied_from_id = None
+                    message.replied_text = None
+                    message.save()
+                Message.objects.get(id=id).delete()
             elif request.POST.get('reply_message'):
                 message_id = request.POST.get('reply_message')
                 return redirect(f'{message_id}/reply-message/', my_id=my_profile.id, message_id=message_id)

@@ -202,198 +202,212 @@
             border-radius: 5px;
             border: 0;
         }
+
         .delete_button:hover {
             cursor: pointer;
         }
+
         .reply_button {
             margin: 5px;
             background: gray;
             border-radius: 5px;
             border: 0;
         }
+
         .reply_button:hover {
             cursor: pointer;
         }
+
         form {
             height: auto;
         }
 
-
+        .buttons {
+            display: flex;
+            flex-direction: row;
+        }
     </style>
 </head>
 
 <body>
-<div class="page">
-    <div class="module">
-        <div class="start">
-            <a href="" class="logo_div">
-                <img src="{{ media }}/logo/logo.png" class="Logo">
-            </a>
-        </div>
-        <div style="width: 50%; margin: 0 20px 20px 20px;">
-            <header>
-                <a href="/../chat/{{other_profile.id}}">
-                    <div class="info">
-                        <img src="{{other_profile.picture.url}}" class="prof_img">
-                        {{ other_profile.user.first_name }}
-                        {{ other_profile.user.last_name }}
-                    </div>
+    <div class="page">
+        <div class="module">
+            <div class="start">
+                <a href="" class="logo_div">
+                    <img src="{{ media }}/logo/logo.png" class="Logo">
                 </a>
-            </header>
-            <div class="messenger" style="height: 85%;">
-                {% if messages %}
-                {% for message in messages %}
-                <!--                {{ message.sent_date }}-->
-                {% if message.from_user.id == my_profile.id %}
-                <div class="message" style="justify-content: flex-end;">
-                    <div style="display: flex; flex-direction: column; max-width: 50%;">
-                        {% if message.replied_from_id %}
-                        <div class="reply">
-                            <div style="color: black; font-size: 0.8rem">Replied<br></div>
-                            {{ message.replied_text }}
-                        </div>
-                        <div class="text" style="background: rgb(70, 70, 70); border-top-left-radius: 0; border-top-right-radius: 0;">
-                            {{ message.message }}<br>
-                            <div class="date"> {{ message.sent_date }}</div>
-                            <form method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="delete_button" style="display: none;"
-                                        name="delete" value="{{message.id}}">Delete
-                                </button>
-                            </form>
-                            <form method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="reply_button" style="display: none;"
-                                        name="reply_message" value="{{message.id}}">Reply
-                                </button>
-                            </form>
-                        </div>
-                        {% else %}
-                        <div class="text" style="background: rgb(70, 70, 70);">
-                            {{ message.message }}<br>
-                            <div class="date"> {{ message.sent_date }}</div>
-                            <form method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="delete_button" style="display: none;"
-                                        name="delete" value="{{message.id}}">Delete
-                                </button>
-                            </form>
-                            <form method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="reply_button" style="display: none;"
-                                        name="reply_message" value="{{message.id}}">Reply
-                                </button>
-                            </form>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% else %}
-                <div class="message">
-                    <div style="display: flex; flex-direction: column; max-width: 50%;">
-                        {% if message.replied_from_id %}
-                        <div class="reply">
-                            <div style="color: black; font-size: 0.8rem">Replied<br></div>
-                            {{ message.replied_text }}
-                        </div>
-                        <div class="text" style="border-top-left-radius: 0; border-top-right-radius: 0;">
-                            {{ message.message }}<br>
-                            <div class="date" style="justify-content: flex-start;">
-                                {{ message.sent_date }}
-                            </div>
-                            <form method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="delete_button" style="display: none;"
-                                        name="delete" value="{{message.id}}">Delete
-                                </button>
-                            </form>
-
-                            <form method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="reply_button" style="display: none;"
-                                        name="reply_message" value="{{message.id}}">Reply
-                                </button>
-                            </form>
-                        </div>
-                        {% else %}
-                        <div class="text">
-                            {{ message.message }}<br>
-                            <div class="date" style="justify-content: flex-start;">
-                                {{ message.sent_date }}
-                            </div>
-                            <form method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="delete_button" style="display: none;"
-                                        name="delete" value="{{message.id}}">Delete
-                                </button>
-                            </form>
-
-                            <form method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="reply_button" style="display: none;"
-                                        name="reply_message" value="{{message.id}}">Reply
-                                </button>
-                            </form>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endif %}
-                {% endfor %}
-                {% elif other_profile.id != my_profile.id %}
-                <div class="hello">
-                    <h1>
-                        <div class="hello_word">Say Hello to</div>
-                        <div class="hello_word">
-                            {{ other_profile.user.first_name }} {{ other_profile.user.last_name }}
-                        </div>
-                    </h1>
-                </div>
-                {% endif %}
             </div>
-            <footer style="height: auto;" id="footer">
-                <form method="post">
-                    {% csrf_token %}
-                    <input name="message" class="textarea">
-                    <!-- </textarea> -->
-                    <input type="submit" value="Send" class="submit" name="send">
-                </form>
-            </footer>
-        </div>
-        <div class="chats">
-            <a href="/../chat/{{my_profile.id}}">
-                <div class="info" style="background: black; border-top-left-radius: 20px">
-                    <img src="{{ my_profile.picture.url }}" class="prof_img">
-                    {{ my_profile.user.first_name }}
-                    {{ my_profile.user.last_name }} (me)
+            <div style="width: 50%; margin: 0 20px 20px 20px;">
+                <header>
+                    <a href="/../chat/{{other_profile.id}}">
+                        <div class="info">
+                            <img src="{{other_profile.picture.url}}" class="prof_img">
+                            {{ other_profile.user.first_name }}
+                            {{ other_profile.user.last_name }}
+                        </div>
+                    </a>
+                </header>
+                <div class="messenger" style="height: 85%;">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <!--                {{ message.sent_date }}-->
+                    {% if message.from_user.id == my_profile.id %}
+                    <div class="message" style="justify-content: flex-end;">
+                        <div style="display: flex; flex-direction: column; max-width: 50%;">
+                            {% if message.replied_from_id %}
+                            <div class="reply">
+                                <div style="color: black; font-size: 0.8rem">Replied<br></div>
+                                {{ message.replied_text }}
+                            </div>
+                            <div class="text"
+                                style="background: rgb(70, 70, 70); border-top-left-radius: 0; border-top-right-radius: 0;">
+                                {{ message.message }}<br>
+                                <div class="date"> {{ message.sent_date }}</div>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="delete_button" style="display: none;" name="delete"
+                                        value="{{message.id}}">Delete
+                                    </button>
+                                </form>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="reply_button" style="display: none;"
+                                        name="reply_message" value="{{message.id}}">Reply
+                                    </button>
+                                </form>
+                            </div>
+                            {% else %}
+                            <div class="text" style="background: rgb(70, 70, 70);">
+                                {{ message.message }}<br>
+                                <div class="date"> {{ message.sent_date }}</div>
+                                <div class="buttons">
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="delete_button" style="display: none;" name="delete"
+                                            value="{{message.id}}">Delete
+                                        </button>
+                                    </form>
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="reply_button" style="display: none;"
+                                            name="reply_message" value="{{message.id}}">Reply
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="message">
+                        <div style="display: flex; flex-direction: column; max-width: 50%;">
+                            {% if message.replied_from_id %}
+                            <div class="reply">
+                                <div style="color: black; font-size: 0.8rem">Replied<br></div>
+                                {{ message.replied_text }}
+                            </div>
+                            <div class="text" style="border-top-left-radius: 0; border-top-right-radius: 0;">
+                                {{ message.message }}<br>
+                                <div class="date" style="justify-content: flex-start;">
+                                    {{ message.sent_date }}
+                                </div>
+                                <div class="buttons">
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="delete_button" style="display: none;" name="delete"
+                                            value="{{message.id}}">Delete
+                                        </button>
+                                    </form>
+
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="reply_button" style="display: none;"
+                                            name="reply_message" value="{{message.id}}">Reply
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="text">
+                                {{ message.message }}<br>
+                                <div class="date" style="justify-content: flex-start;">
+                                    {{ message.sent_date }}
+                                </div>
+                                <div class="buttons">
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="delete_button" style="display: none;" name="delete"
+                                            value="{{message.id}}">Delete
+                                        </button>
+                                    </form>
+
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="reply_button" style="display: none;"
+                                            name="reply_message" value="{{message.id}}">Reply
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% elif other_profile.id != my_profile.id %}
+                    <div class="hello">
+                        <h1>
+                            <div class="hello_word">Say Hello to</div>
+                            <div class="hello_word">
+                                {{ other_profile.user.first_name }} {{ other_profile.user.last_name }}
+                            </div>
+                        </h1>
+                    </div>
+                    {% endif %}
                 </div>
-            </a>
-            <div class="unused_chats">
-                {% for chat in all_chats %}
-                {% if chat.user1.id == my_profile.id and chat.user2.id != other_profile.id %}
-                <a href="/../chat/{{chat.user2.id}}">
-                    <div class="info">
-                        <img src="{{ chat.user2.picture.url }}" class="prof_img">
-                        {{ chat.user2.user.first_name }}
-                        {{ chat.user2.user.last_name }}
+                <footer style="height: auto;" id="footer">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input name="message" class="textarea">
+                        <!-- </textarea> -->
+                        <input type="submit" value="Send" class="submit" name="send">
+                    </form>
+                </footer>
+            </div>
+            <div class="chats">
+                <a href="/../chat/{{my_profile.id}}">
+                    <div class="info" style="background: black; border-top-left-radius: 20px">
+                        <img src="{{ my_profile.picture.url }}" class="prof_img">
+                        {{ my_profile.user.first_name }}
+                        {{ my_profile.user.last_name }} (me)
                     </div>
                 </a>
-                {% elif chat.user1.id != other_profile.id and chat.user2.id == my_profile.id %}
-                <a href="/../chat/{{chat.user1.id}}">
-                    <div class="info">
-                        <img src="{{ chat.user1.picture.url }}" class="prof_img">
-                        {{ chat.user1.user.first_name }}
-                        {{ chat.user1.user.last_name }}
-                    </div>
-                </a>
-                {% endif %}
-                {% endfor %}
+                <div class="unused_chats">
+                    {% for chat in all_chats %}
+                    {% if chat.user1.id == my_profile.id and chat.user2.id != other_profile.id %}
+                    <a href="/../chat/{{chat.user2.id}}">
+                        <div class="info">
+                            <img src="{{ chat.user2.picture.url }}" class="prof_img">
+                            {{ chat.user2.user.first_name }}
+                            {{ chat.user2.user.last_name }}
+                        </div>
+                    </a>
+                    {% elif chat.user1.id != other_profile.id and chat.user2.id == my_profile.id %}
+                    <a href="/../chat/{{chat.user1.id}}">
+                        <div class="info">
+                            <img src="{{ chat.user1.picture.url }}" class="prof_img">
+                            {{ chat.user1.user.first_name }}
+                            {{ chat.user1.user.last_name }}
+                        </div>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-<script>
+    </div>
+    <script>
         var element = document.querySelector(".messenger");
         element.scrollTop = element.scrollHeight;
         const messages = document.querySelectorAll(".text");
@@ -441,7 +455,7 @@
 
 
 
-</script>
+    </script>
 </body>
 
 </html>

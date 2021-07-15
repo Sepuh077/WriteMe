@@ -9,5 +9,5 @@ urlpatterns = [
     path('verify/<int:profile_id>', views.verify, name='verify'),
     path('chat/<int:profile_id>', views.chat, name='chat'),
     path('search/', views.search, name='search'),
-    path('chat/<int:message_id>/reply-message/', views.forward_message, name='reply_message'),
+    path('chat/<int:message_id>/reply-message/', views.reply_message, name='reply_message'),
 ]
