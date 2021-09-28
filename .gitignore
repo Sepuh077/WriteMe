@@ -4,3 +4,4 @@
 **/media/*
 *.sqlite3
 __init__.py
+**/settings.py
